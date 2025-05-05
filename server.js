@@ -12,13 +12,24 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = async (req, res) => {
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end(); // No content
+  }
+
+  // Make sure it's a POST request
   if (req.method !== 'POST') {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
 
-  let body = req.body;
+  // Set CORS headers for the actual POST request too
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
-  // If the body hasn't been parsed yet (common in serverless), parse it manually
+  // Parse the body
+  let body = req.body;
   if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
@@ -29,16 +40,17 @@ module.exports = async (req, res) => {
 
   const { name, email, message } = body;
 
+  // Validate
   if (!name) return res.status(400).json({ message: "Name is required" });
   if (!email) return res.status(400).json({ message: "Email is required" });
   if (!message) return res.status(400).json({ message: "Message is required" });
 
+  // Send mail
   const mailOptions = {
-    from: '"KingFix Support" <support@kingfix.name.ng>',
+    from: '"KingFix Contact" <contact@kingfix.name.ng>',
     to: 'support@kingfix.name.ng',
-    subject: `New Message from ${name}`,
-    html: `<p>You have received a new message from your website contact form.</p>
-           <p><strong>Name:</strong> ${name}</p>
+    subject: `New Message from ${name} through kingfix.name.ng website`,
+    html: `<p><strong>Name:</strong> ${name}</p>
            <p><strong>Email:</strong> ${email}</p>
            <p><strong>Message:</strong> ${message}</p>`
   };
@@ -47,7 +59,7 @@ module.exports = async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
-    console.error("Here: ", error);
+    console.error("Email error:", error);
     res.status(500).json({ error: 'Error sending email' });
   }
 };
