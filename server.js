@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports = async (req, res) => {
-  if (req.method === 'POST') {
+  
     const { name, email, message } = req.body;
 
     const mailOptions = {
@@ -32,7 +32,4 @@ module.exports = async (req, res) => {
       res.status(500).json({ error: 'Error sending email' });
       console.error("Here: ",error)
     }
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
-  }
 };
