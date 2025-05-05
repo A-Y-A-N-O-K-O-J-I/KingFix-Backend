@@ -14,7 +14,10 @@ const transporter = nodemailer.createTransport({
 module.exports = async (req, res) => {
   
     const { name, email, message } = req.body;
-
+    if(!name) return res.status(400).json({message:"Invalid Form"})
+    if(!email) return res.status(400).json({message: "Invalid Form"})
+    if(!message) return res.status(400).json({message: "Invalid Form"})
+    
     const mailOptions = {
       from: '"KingFix Support" <support@kingfix.name.ng>',
       to: 'support@kingfix.name.ng',
