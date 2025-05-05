@@ -30,6 +30,7 @@ module.exports = async (req, res) => {
       res.status(200).json({ message: 'Email sent successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Error sending email' });
+      console.error("Here: ",error)
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });
