@@ -54,26 +54,26 @@ function createRoute(path, config) {
 
 // Define all routes
 createRoute('/fix', {
-  to: 'admin@kingfix.name.ng',
+  to: 'support@kingfix.name.ng',
   from: '"KingFix Fix" <fix@kingfix.name.ng>',
   subject: "Message received from Fix Section",
   requirePhone: true
 });
 
 createRoute('/swap', {
-  to: 'admin@kingfix.name.ng',
+  to: 'support@kingfix.name.ng',
   from: '"KingFix Swap" <swap@kingfix.name.ng>',
   subject: "Message received from Swap Section"
 });
 
 createRoute('/sell', {
-  to: 'admin@kingfix.name.ng',
+  to: 'support@kingfix.name.ng',
   from: '"KingFix Sell" <sell@kingfix.name.ng>',
   subject: "Message received from Sell Section"
 });
 
 createRoute('/buy', {
-  to: 'admin@kingfix.name.ng',
+  to: 'support@kingfix.name.ng',
   from: '"KingFix Buy" <buy@kingfix.name.ng>',
   subject: "Message received from Buy Section"
 });
